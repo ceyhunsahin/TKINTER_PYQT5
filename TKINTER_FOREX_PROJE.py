@@ -51,6 +51,78 @@ treeview.bind("<Double-1>", callback)
 
 def openTrade():
     print("opentrade")
+    if item != "":
+        print("chosen item : ", item)
+        
+        if item =="EUR/USD":
+        #button settings
+            open_button.config(state = "disabled")
+            start_button.config(state = "normal")
+            
+            #data
+            data = pd.read_csv("eurusd.csv")
+            
+            future = data[-1000:]
+            data = data[:len(data)-1000]
+            data_close_array = data.close1.values
+            future_array = list(future.close1.values)
+            
+            #line
+            
+            fig1 = plt.Figure(figsize = (5,4), dpi = 100)
+            ax1 = fig1.add_subplot(111) # 1. satir, 1. sutun a 1 tane resim,plot koycam
+            line, = ax1.plot(range(len(data)), data.close1, color = "blue") # line a 2 deger doner ama 1 tanesini istiyorum dgeri cok onemli degil
+            
+            canvas = FigureCanvasTkAgg(fig1, master = tab1)
+            canvas.draw()
+            canvas.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = True)
+            
+            # scatte
+            
+            fig2 = plt.Figure(figsize = (5,4), dpi = 100)
+            ax2 = fig2.add_subplot(111)
+            line2 = ax2.scatter(range(len(data)), data.close1, s = 1, alpha = 0.5, color = "red")
+            canvas2 = FigureCanvasTkAgg(fig2, master = tab2)
+            canvas2.draw()
+            canvas2.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = 1)
+        
+        elif item =="EUR/GBP":
+            #button settings
+            open_button.config(state = "disabled")
+            start_button.config(state = "normal")
+            
+            #data
+            data = pd.read_csv("eurgbr.csv")
+            
+            future = data[-1000:]
+            data = data[:len(data)-1000]
+            data_close_array = data.close1.values
+            future_array = list(future.close1.values)
+            
+            #line
+            
+            fig3 = plt.Figure(figsize = (5,4), dpi = 100)
+            ax3 = fig3.add_subplot(111) # 1. satir, 1. sutun a 1 tane resim,plot koycam
+            line3, = ax3.plot(range(len(data)), data.close1, color = "blue") # line a 2 deger doner ama 1 tanesini istiyorum dgeri cok onemli degil
+            
+            canvas3 = FigureCanvasTkAgg(fig3, master = tab1)
+            canvas3.draw()
+            canvas3.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = True)
+            
+            # scatter
+            
+            fig4 = plt.Figure(figsize = (5,4), dpi = 100)
+            ax4 = fig4.add_subplot(111)
+            line4 = ax4.scatter(range(len(data)), data.close1, s = 1, alpha = 0.5, color = "red")
+            canvas4 = FigureCanvasTkAgg(fig4, master = tab2)
+            canvas4.draw()
+            canvas4.get_tk_widget().pack(side = tk.TOP, fill = tk.BOTH, expand = 1)
+            
+        else:
+            messagebox.showinfo(title = "Warning", message = "Double Click to Choose Currency Pair")    
+    else : 
+        messagebox.showinfo(title = "Warning", message = "Double Click to Choose Currency Pair")            
+            
     
 open_button = tk.Button(frame1, text = "Open Trading", command = openTrade)
 open_button.grid(row = 2, column = 1, padx=5, pady=5)
